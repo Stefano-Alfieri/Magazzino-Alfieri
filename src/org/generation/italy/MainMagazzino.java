@@ -26,10 +26,10 @@ public class MainMagazzino {
 		Scanner sc = new Scanner(System.in);
 		DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		Movimento m = new Movimento();
-		String risposta, rispostaRestart,risp;
+		String risposta, rispostaRestart, risp;
 		boolean sceltaSbagliata = false;
-		boolean uscita = false, entrata = false, giacenza = false,ricerca=false;
-		int k=1,l=1;
+		boolean uscita = false, entrata = false, giacenza = false, ricerca = false;
+		int k = 1, l = 1;
 		// inserimento clienti
 		clienti.put("01", "Stefano Alfieri");
 		clienti.put("02", "Peter Hanna");
@@ -80,7 +80,7 @@ public class MainMagazzino {
 					giacenza = true;
 				} else if (risposta.equals("4")) {
 					System.out.println("hai selezionato ricerca movimento");
-					ricerca= true;
+					ricerca = true;
 				} else {
 					System.out.println("hai inserito una scelta sbagliata, reinserire");
 					sceltaSbagliata = true;
@@ -88,46 +88,47 @@ public class MainMagazzino {
 			} while (sceltaSbagliata == true);
 			// sessione movimento in entrata
 			if (entrata == true) {
-				for(int i=0;i<=listaMovimenti.size();i++) {
-				System.out.print("Inserisci la data del movimento in entrata: ");
-				m.dataMov = LocalDate.parse(sc.nextLine(), df);
-				System.out.print("Inserisci il codice prodotto: ");
-				m.codiceprod = sc.nextLine();
-				System.out.print("Inserisci la quantità del prodotto: ");
-				m.quantita = sc.nextInt();
-				sc.nextLine();
-				giacenzaProd.put(m.codiceprod, (giacenzaProd.get(m.codiceprod) + m.quantita));
-				System.out.println("Inserisci il codice del movimento in entrata tra i seguenti: \n" + tipologieMovimentoE);
-				m.codiceMov = sc.nextLine();
-				if(m.codiceMov.equals("E01")) {
-					System.out.println("inserire il codice fornitore");
-					m.codiceForn=sc.nextLine();
-					if(!movimentiFornitore.containsKey(m.codiceForn)) {
-						movimentiFornitore.put(m.codiceForn, new ArrayList<String>());
+				for (int i = 0; i <= listaMovimenti.size(); i++) {
+					System.out.print("Inserisci la data del movimento in entrata: ");
+					m.dataMov = LocalDate.parse(sc.nextLine(), df);
+					System.out.print("Inserisci il codice prodotto: ");
+					m.codiceprod = sc.nextLine();
+					System.out.print("Inserisci la quantità del prodotto: ");
+					m.quantita = sc.nextInt();
+					sc.nextLine();
+					giacenzaProd.put(m.codiceprod, (giacenzaProd.get(m.codiceprod) + m.quantita));
+					System.out.println(
+							"Inserisci il codice del movimento in entrata tra i seguenti: \n" + tipologieMovimentoE);
+					m.codiceMov = sc.nextLine();
+					if (m.codiceMov.equals("E01")) {
+						System.out.println("inserire il codice fornitore");
+						m.codiceForn = sc.nextLine();
+						if (!movimentiFornitore.containsKey(m.codiceForn)) {
+							movimentiFornitore.put(m.codiceForn, new ArrayList<String>());
+						}
+						movimentiFornitore.get(m.codiceForn).add("E" + l);
+						l++;
+					} else if (m.codiceMov.equals("E02")) {
+						System.out.println("inserire il codice cliente");
+						m.codiceCliente = sc.nextLine();
+						if (!movimentiCliente.containsKey(m.codiceCliente)) {
+							movimentiCliente.put(m.codiceCliente, new ArrayList<String>());
+						}
+						movimentiCliente.get(m.codiceCliente).add("E" + l);
+						l++;
 					}
-					movimentiFornitore.get(m.codiceForn).add("E"+l);
-					l++;
-				}else if(m.codiceMov.equals("E02")) {
-					System.out.println("inserire il codice cliente");
-					m.codiceCliente=sc.nextLine();
-					if(!movimentiCliente.containsKey(m.codiceCliente)) {
-						movimentiCliente.put(m.codiceCliente, new ArrayList<String>());
+					listaMovimenti.add(m);
+					if (tipologieMovimentoE.containsKey(m.codiceMov)) {
+						System.out.println("il movimento effettuato è: " + tipologieMovimentoE.get(m.codiceMov));
+						System.out.println("effettuato in data " + listaMovimenti.get(i).dataMov.format(df));
+						System.out.println("per l'articolo " + prodotti.get(m.codiceprod));
+						entrata = false;
+						break;
 					}
-					movimentiCliente.get(m.codiceCliente).add("E"+l);
-					l++;
-				}
-				listaMovimenti.add(m);
-				if (tipologieMovimentoE.containsKey(m.codiceMov)) {
-					System.out.println("il movimento effettuato è: " + tipologieMovimentoE.get(m.codiceMov));
-					System.out.println("effettuato in data " + listaMovimenti.get(i).dataMov.format(df));
-					System.out.println("per l'articolo " + prodotti.get(m.codiceprod));
-					entrata = false;
-					break;
-				}
 				}
 				// sessione movimento in uscita
 			} else if (uscita == true) {
-				for(int i=0;i<=listaMovimenti.size();i++) {
+				for (int i = 0; i <= listaMovimenti.size(); i++) {
 					System.out.print("Inserisci la data del movimento in uscita: ");
 					m.dataMov = LocalDate.parse(sc.nextLine(), df);
 					System.out.print("Inserisci il codice prodotto: ");
@@ -136,23 +137,24 @@ public class MainMagazzino {
 					m.quantita = sc.nextInt();
 					sc.nextLine();
 					giacenzaProd.put(m.codiceprod, (giacenzaProd.get(m.codiceprod) - m.quantita));
-					System.out.println("Inserisci il codice del movimento in uscita tra i seguenti: \n" + tipologieMovimentoU);
+					System.out.println(
+							"Inserisci il codice del movimento in uscita tra i seguenti: \n" + tipologieMovimentoU);
 					m.codiceMov = sc.nextLine();
-					if(m.codiceMov.equals("U02")) {
+					if (m.codiceMov.equals("U02")) {
 						System.out.println("inserire il codice fornitore");
-						m.codiceForn=sc.nextLine();
-						if(!movimentiFornitore.containsKey(m.codiceForn)) {
+						m.codiceForn = sc.nextLine();
+						if (!movimentiFornitore.containsKey(m.codiceForn)) {
 							movimentiFornitore.put(m.codiceForn, new ArrayList<String>());
 						}
-						movimentiFornitore.get(m.codiceForn).add("U"+k);
+						movimentiFornitore.get(m.codiceForn).add("U" + k);
 						k++;
-					}else if(m.codiceMov.equals("U01")) {
+					} else if (m.codiceMov.equals("U01")) {
 						System.out.println("inserire il codice cliente");
-						m.codiceCliente=sc.nextLine();
-						if(!movimentiCliente.containsKey(m.codiceCliente)) {
+						m.codiceCliente = sc.nextLine();
+						if (!movimentiCliente.containsKey(m.codiceCliente)) {
 							movimentiCliente.put(m.codiceCliente, new ArrayList<String>());
 						}
-						movimentiCliente.get(m.codiceCliente).add("U"+k);
+						movimentiCliente.get(m.codiceCliente).add("U" + k);
 						k++;
 					}
 					listaMovimenti.add(m);
@@ -163,7 +165,7 @@ public class MainMagazzino {
 						uscita = false;
 						break;
 					}
-					}
+				}
 				// sessione verifica giacenza
 			} else if (giacenza == true) {
 				System.out.println("inserire il codice del prodotto del quale si vuole verificare la giacenza:");
@@ -173,39 +175,39 @@ public class MainMagazzino {
 							+ giacenzaProd.get(m.codiceprod));
 					giacenza = false;
 				}
-			}else if(ricerca==true) {
+			} else if (ricerca == true) {
 				do {
 					sceltaSbagliata = false;
-					System.out.println(
-							"vuoi ricercare tra i clienti(1) o tra i fornitori(2)?");
+					System.out.println("vuoi ricercare tra i clienti(1) o tra i fornitori(2)?");
 					risp = sc.nextLine();
 					if (risp.equals("1")) {
 						System.out.println("Inserisci il codice cliente:");
-						m.codiceCliente=sc.nextLine();
-						if(movimentiCliente.containsKey(m.codiceCliente)) {
-							System.out.println("i movimenti relativi al cliente "+clienti.get(m.codiceCliente)+" sono:");
-							for(int j=0;j<=movimentiCliente.get(m.codiceCliente).size();j++) {
-							System.out.println("il movimento: " + movimentiCliente.get(m.codiceCliente));
-							
+						m.codiceCliente = sc.nextLine();
+						if (movimentiCliente.containsKey(m.codiceCliente)) {
+							System.out.println(
+									"i movimenti relativi al cliente " + clienti.get(m.codiceCliente) + " sono:");
+							for (int j = 0; j < movimentiCliente.get(m.codiceCliente).size(); j++) {
+								System.out.println("il movimento: " + movimentiCliente.get(m.codiceCliente).get(j));
+
 							}
 						}
-						
+
 					} else if (risposta.equals("2")) {
 						System.out.println("Inserisci il codice fornitore:");
-						m.codiceForn=sc.nextLine();
-						if(movimentiCliente.containsKey(m.codiceForn)) {
-							System.out.println("i movimenti relativi al fornitore "+fornitori.get(m.codiceForn)+" sono:");
-							for(int j=0;j<=movimentiFornitore.size();j++) {
-							System.out.println("il movimento: " + movimentiFornitore.get(m.codiceForn));						
+						m.codiceForn = sc.nextLine();
+						if (movimentiCliente.containsKey(m.codiceForn)) {
+							System.out.println(
+									"i movimenti relativi al fornitore " + fornitori.get(m.codiceForn) + " sono:");
+							for (int j = 0; j < movimentiFornitore.size(); j++) {
+								System.out.println("il movimento: " + movimentiFornitore.get(m.codiceForn).get(j));
 							}
 						}
-						
-					}else {
+					} else {
 						System.out.println("inserire un valore valido");
 						sceltaSbagliata = true;
 					}
-				}while(sceltaSbagliata == true);
-				ricerca=false;
+				} while (sceltaSbagliata == true);
+				ricerca = false;
 			}
 			// richiesta restart
 			System.out.println("desideri fare un'altra operazione?");
