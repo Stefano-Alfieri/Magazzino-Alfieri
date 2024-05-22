@@ -7,6 +7,6 @@ public class Movimento {
 		public String codiceprod,codiceForn,codiceCliente;
 		public String codiceMov;
 		public LocalDate dataMov;
-		public int giacenza;
+
 		
 }
