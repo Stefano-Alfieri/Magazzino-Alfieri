@@ -67,7 +67,7 @@ public class MainMagazzino {
 			do {
 				sceltaSbagliata = false;
 				System.out.println(
-						"cosa vuoi fare? movimento in entrata (1) o movimento in uscita (2) o giacenzaza prodotto (3) o ricerca movimento (4)?");
+						"cosa vuoi fare? movimento in entrata (1) o movimento in uscita (2) o giacenza prodotto (3) o ricerca movimento (4)?");
 				risposta = sc.nextLine();
 				if (risposta.equals("1")) {
 					System.out.println("hai selezionato movimento in entrata");
