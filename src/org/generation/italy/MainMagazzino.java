@@ -103,20 +103,10 @@ public class MainMagazzino {
 								+ tipologieMovimentoE);
 						m.codiceMov = sc.nextLine();
 						if (m.codiceMov.equals("E01")) {
-							System.out.println("inserire il codice fornitore");
-							m.codiceForn = sc.nextLine();
-							if (!movimentiFornitore.containsKey(m.codiceForn)) {
-								movimentiFornitore.put(m.codiceForn, new ArrayList<String>());
-							}
-							movimentiFornitore.get(m.codiceForn).add("E" + l);
+							verificaCodiceUtente(movimentiFornitore, "E"+l, sc);
 							l++;
 						} else if (m.codiceMov.equals("E02")) {
-							System.out.println("inserire il codice cliente");
-							m.codiceCliente = sc.nextLine();
-							if (!movimentiCliente.containsKey(m.codiceCliente)) {
-								movimentiCliente.put(m.codiceCliente, new ArrayList<String>());
-							}
-							movimentiCliente.get(m.codiceCliente).add("E" + l);
+							verificaCodiceUtente(movimentiCliente, "E"+l, sc);
 							l++;
 						}
 						if (tipologieMovimentoE.containsKey(m.codiceMov)) {
@@ -149,20 +139,10 @@ public class MainMagazzino {
 								"Inserisci il codice del movimento in uscita tra i seguenti: \n" + tipologieMovimentoU);
 						m.codiceMov = sc.nextLine();
 						if (m.codiceMov.equals("U02")) {
-							System.out.println("inserire il codice fornitore");
-							m.codiceForn = sc.nextLine();
-							if (!movimentiFornitore.containsKey(m.codiceForn)) {
-								movimentiFornitore.put(m.codiceForn, new ArrayList<String>());
-							}
-							movimentiFornitore.get(m.codiceForn).add("U" + k);
+							verificaCodiceUtente(movimentiFornitore, "U"+ k, sc);
 							k++;
 						} else if (m.codiceMov.equals("U01")) {
-							System.out.println("inserire il codice cliente");
-							m.codiceCliente = sc.nextLine();
-							if (!movimentiCliente.containsKey(m.codiceCliente)) {
-								movimentiCliente.put(m.codiceCliente, new ArrayList<String>());
-							}
-							movimentiCliente.get(m.codiceCliente).add("U" + k);
+							verificaCodiceUtente(movimentiCliente, "U"+ k, sc);
 							k++;
 						}
 						if (tipologieMovimentoU.containsKey(m.codiceMov)) {
@@ -236,5 +216,19 @@ public class MainMagazzino {
 		} while (rispostaRestart.equalsIgnoreCase("si") || rispostaRestart.equalsIgnoreCase("sì"));
 
 	}// fine main
-
+	
+	//funzione verifica codice
+	private static String verificaCodiceUtente(HashMap<String, List<String>> elencoValori, String codiceUscita, Scanner sc) {
+	System.out.println("inserire il codice");
+	String codice;
+	
+	codice = sc.nextLine();
+	if (!elencoValori.containsKey(codice)) {
+		elencoValori.put(codice, new ArrayList<String>());
+	}
+	elencoValori.get(codice).add(codiceUscita);
+	return codice;
+	}
+	
+	
 }
